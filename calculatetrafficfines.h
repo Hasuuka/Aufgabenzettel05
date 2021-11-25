@@ -21,7 +21,7 @@ public:
 private:
     list<Tatbestand> m_taten;
     const string trennzeichen = ";";
-    FILE *data1;
+    FILE *file;
 };
 
 #endif // CALCULATETRAFFICFINES_H

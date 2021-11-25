@@ -1,8 +1,6 @@
 #include "calculatetrafficfines.h"
 #include <iostream>
 #include <fstream>
-#include <vector>
-
 
 CalculateTrafficFines::CalculateTrafficFines()
 {
@@ -11,57 +9,52 @@ CalculateTrafficFines::CalculateTrafficFines()
 
 void CalculateTrafficFines::readCSV(){
 
-    string filename("/Users/battleranger/Documents/C++-Projekte/Aufgabenzettel05/test.csv");
-    vector<char> bytes;
-
-    data1 = fopen(filename.c_str(),"r");
-    if(data1 == nullptr)
-    {
-        fprintf(stderr, "Fehler beim Oeffnen der Datei!\n");
-        exit(EXIT_FAILURE);
-    }
-
-    string line="Tattag;Zeit;Tatort;Tatort 2;Tatbestand;Geldbuße,,";
-
-    size_t pos = 0;
-    int counter = 0;
-    string sign;
-    Tatbestand lineTat;
-
-    while ((pos = line.find(trennzeichen)) != string::npos) {
-        switch(counter){
-        case 0:
-            lineTat.tag = line.substr(0, pos);
-            break;
-        case 1:
-            lineTat.zeit = line.substr(0, pos);
-            break;
-
-        case 2:
-            lineTat.ort = line.substr(0, pos);
-            break;
-        case 3:
-            lineTat.tatbestand = line.substr(0, pos);
-            line.erase(0, pos + trennzeichen.length());
-            lineTat.geldbusse = line.substr(0, pos);
-            break;
-        case 4:
-            lineTat.geldbusse = line.substr(0, pos);
-            break;
+    string filename("D:\\Uni\\Semester 3\\MMI & GUI\\Abgabe5\\A2\\Aufgabenzettel05\\BussgelderFliessverkehrJanuar2020.csv");
+    ifstream file;
+        file.open(filename, ios::in);
+        if(file.is_open() != true){
+            cerr << "Fehler beim Lesen!" << endl;
+            file.close();
         }
 
-        line.erase(0, pos + trennzeichen.length());
-        counter++;
-    }
-    cout << lineTat.tag
-            << lineTat.zeit
-               << lineTat.ort
-                  << lineTat.tatbestand
-                  << lineTat.geldbusse
-         << endl;
+        string line="";
+        while(getline(file, line))
+        {
+            size_t pos = 0;
+            int counter = 0;
+            string ortHelper = "";
+            Tatbestand lineTat;
 
+            while ((pos = line.find(trennzeichen)) != string::npos) {
+                switch(counter){
+                case 0:
+                    lineTat.tag = line.substr(0, pos);
+                    break;
+                case 1:
+                    lineTat.zeit = line.substr(0, pos);
+                    break;
+                case 2:
+                    ortHelper = line.substr(0, pos);
+                    break;
+                case 3:
+                    lineTat.ort = ortHelper + ", " + line.substr(0, pos);
+                    break;
+                case 4:
+                    lineTat.tatbestand = line.substr(0, pos);
+                    line.erase(0, pos + trennzeichen.length());
+                    lineTat.geldbusse = line.substr(0, pos);
+                    lineTat.geldbusse.pop_back(); // remove comma
+                    lineTat.geldbusse.pop_back(); // remove comma
+                    break;
+                }
+                line.erase(0, pos + trennzeichen.length());
+                counter++;
+            }
 
-    fclose(data1);
+            m_taten.insert(m_taten.begin(), lineTat);
+        }
 
+    cout << m_taten.size() << endl;
 
+    file.close();
 }

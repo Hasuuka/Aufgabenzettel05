@@ -7,7 +7,7 @@ int main()
 {
     cout << "Hello World!" << endl;
 
-    CalculateTrafficFines spaßt;
-    spaßt.readCSV();
+    CalculateTrafficFines test;
+    test.readCSV();
     return 0;
 }
