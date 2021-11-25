@@ -1,6 +1,7 @@
 #ifndef CALCULATETRAFFICFINES_H
 #define CALCULATETRAFFICFINES_H
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -8,8 +9,8 @@ struct Tatbestand{
     string tag;
     string zeit;
     string ort;
-    int geldbusse;
-    int tatbestand;
+    string geldbusse;
+    string tatbestand;
 };
 
 class CalculateTrafficFines
@@ -18,7 +19,7 @@ public:
     CalculateTrafficFines();
     void readCSV();
 private:
-    Tatbestand tatbestand;
+    list<Tatbestand> m_taten;
     const string trennzeichen = ";";
     FILE *data1;
 };
