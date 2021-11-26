@@ -9,7 +9,7 @@ struct Tatbestand{
     string tag;
     string zeit;
     string ort;
-    string geldbusse;
+    int geldbusse;
     string tatbestand;
 };
 
@@ -17,6 +17,7 @@ class CalculateTrafficFines
 {
 public:
     CalculateTrafficFines();
+    double averageFine();
     void readCSV();
 private:
     list<Tatbestand> m_taten;

@@ -5,9 +5,9 @@ using namespace std;
 
 int main()
 {
-    cout << "Hello World!" << endl;
+    CalculateTrafficFines fines;
+    fines.readCSV();
 
-    CalculateTrafficFines test;
-    test.readCSV();
+    cout << "Avg: " << fines.averageFine() << endl;
     return 0;
 }
